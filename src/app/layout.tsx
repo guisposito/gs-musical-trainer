@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: 'GS Musical Trainer - Treinador de Notas',
@@ -25,7 +26,7 @@ const RootLayout = ({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body className="min-h-screen bg-[#0a0a0a] text-white antialiased">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

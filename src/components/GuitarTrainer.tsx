@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { Note, TrainingState, PitchDetectionResult, ValidationResult } from '@/types';
+import { useSession } from 'next-auth/react';
+import type { Note, TrainingState, PitchDetectionResult, ValidationResult, AttemptRecord } from '@/types';
 import { getRandomNote } from '@/lib/guitarNotes';
 import { 
   initializeAudio, 
   setupAudioWithScriptProcessor, 
   detectPitch,
-  DEFAULT_AUDIO_CONFIG 
 } from '@/lib/pitchDetector';
 import { 
   isNoteMatch, 
@@ -43,10 +43,26 @@ const GuitarTrainer = () => {
   const trainingStateRef = useRef<TrainingState>('idle');
   const targetNoteRef = useRef<Note | null>(null);
 
+  const { data: session, status: sessionStatus } = useSession();
+  const sessionRef = useRef(session);
+  useEffect(() => {
+    sessionRef.current = session;
+  }, [session]);
+
   // Mantém o ref em sync com o state para o loop de detecção sempre ver a nota atual
   useEffect(() => {
     targetNoteRef.current = targetNote;
   }, [targetNote]);
+
+  /** Fire-and-forget: record attempt when user is logged in */
+  const recordAttempt = useCallback((payload: AttemptRecord) => {
+    if (sessionStatus !== 'authenticated' || !sessionRef.current?.user) return;
+    fetch('/api/attempts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  }, [sessionStatus]);
 
   /**
    * Initialize audio system and start training
@@ -217,6 +233,13 @@ const GuitarTrainer = () => {
 
     setValidationResult(result);
 
+    recordAttempt({
+      stringNumber: noteToValidate.string,
+      fret: noteToValidate.fret,
+      noteName: noteToValidate.name,
+      isCorrect: result.isCorrect,
+    });
+
     if (isCorrect) {
       handleCorrectNote();
     } else {
@@ -230,7 +253,7 @@ const GuitarTrainer = () => {
         }, 1000);
       }
     }
-  }, []);
+  }, [recordAttempt]);
 
   /**
    * Handle correct note detection

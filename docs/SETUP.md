@@ -93,6 +93,19 @@ npm start
 
 ## 🔧 Configuração
 
+### Login e Maestria (opcional)
+
+Para usar **login com Google** e **maestria por corda** (estatísticas salvas):
+
+1. **Crie um projeto no [Supabase](https://supabase.com)** e anote a URL e a chave "service_role" (Settings → API).
+2. **Crie credenciais OAuth no [Google Cloud Console](https://console.cloud.google.com/)** (APIs & Services → Credentials → Create OAuth 2.0 Client ID, tipo "Web application", redirect URI: `http://localhost:3000/api/auth/callback/google`).
+3. **Copie `.env.example` para `.env.local`** e preencha:
+   - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+   - `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+4. **Crie a tabela no Supabase**: execute o SQL em `supabase/migrations/001_create_attempts.sql` no SQL Editor do Supabase (Dashboard → SQL Editor).
+
+Depois disso, o botão "Entrar com Google" e a página **Maestria** (`/maestria`) passam a funcionar; as tentativas são salvas quando você está logado.
+
 ### Permissões do Navegador
 
 Ao acessar pela primeira vez, o navegador solicitará permissão de microfone:

@@ -82,3 +82,20 @@ export interface GuitarTuning {
   /** Open string frequency in Hz */
   frequency: number;
 }
+
+/**
+ * Attempt record for persistence (API payload)
+ */
+export interface AttemptRecord {
+  stringNumber: number;
+  fret: number;
+  noteName: string;
+  isCorrect: boolean;
+}
+
+/**
+ * Stats per string for mastery chart
+ */
+export interface StatsByString {
+  [stringNumber: number]: { correct: number; total: number };
+}

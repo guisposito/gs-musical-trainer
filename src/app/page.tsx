@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import AuthArea from '@/components/AuthArea';
 
 const GuitarTrainer = dynamic(
   () => import('@/components/GuitarTrainer'),
@@ -15,12 +16,15 @@ const HomePage = () => {
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 max-w-4xl">
         <header className="text-center mb-8 sm:mb-10 lg:mb-12 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
-            <span className="text-brand-red">GS</span> Musical Trainer
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Treine as notas no braço da guitarra com detecção de pitch em tempo real
-          </p>
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
+              <span className="text-brand-red">GS</span> Musical Trainer
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+              Treine as notas no braço da guitarra com detecção de pitch em tempo real
+            </p>
+            <AuthArea />
+          </div>
         </header>
 
         <GuitarTrainer />
