@@ -55,13 +55,35 @@ export const generateGuitarNotes = (): Note[] => {
 };
 
 /**
- * Get a random note from the available guitar notes
+ * Nota da corda solta (casa 0) para uma corda
+ */
+const getOpenStringNoteName = (stringNumber: number): string => {
+  const tuning = STANDARD_TUNING.find((t) => t.string === stringNumber);
+  return tuning?.note ?? '';
+};
+
+/**
+ * Lista de notas que o treino pode pedir: exclui casa 12 quando é a mesma nota da corda solta,
+ * para sempre priorizar "corda solta" (casa 0) em vez de casa 12 (ex.: E na corda 6 = casa 0, nunca casa 12).
+ */
+export const getTrainableNotes = (): Note[] => {
+  const allNotes = generateGuitarNotes();
+  return allNotes.filter((note) => {
+    if (note.fret !== 12) return true;
+    const openNote = getOpenStringNoteName(note.string);
+    return note.name !== openNote;
+  });
+};
+
+/**
+ * Get a random note from the available guitar notes.
+ * Nunca retorna casa 12 quando a nota é a mesma da corda solta (sempre pede casa 0).
  * @returns Random note from the fretboard
  */
 export const getRandomNote = (): Note => {
-  const allNotes = generateGuitarNotes();
-  const randomIndex = Math.floor(Math.random() * allNotes.length);
-  return allNotes[randomIndex];
+  const notes = getTrainableNotes();
+  const randomIndex = Math.floor(Math.random() * notes.length);
+  return notes[randomIndex];
 };
 
 /**

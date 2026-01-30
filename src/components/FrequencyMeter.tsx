@@ -32,78 +32,72 @@ const FrequencyMeter = ({ frequency, isListening, confidence, audioLevel = 0 }: 
   }, [frequency]);
 
   const confidencePercentage = Math.round(confidence * 100);
-  const confidenceColor = confidence > 0.7 ? 'bg-green-500' : confidence > 0.4 ? 'bg-yellow-500' : 'bg-red-500';
+  const confidenceColor = confidence > 0.7 ? 'bg-success-500' : confidence > 0.4 ? 'bg-amber-500' : 'bg-brand-red';
 
   return (
-    <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+    <div className="bg-dark-800/90 rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl border border-dark-600/50 ring-1 ring-white/5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-          Detecção em Tempo Real
+        <h3 className="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Detecção em tempo real
         </h3>
         <div className="flex items-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-green-500 animate-pulse' : 'bg-gray-600'}`} />
-          <span className="text-xs text-gray-400">
+          <div className={`w-2 h-2 rounded-full ${isListening ? 'bg-brand-red animate-pulse' : 'bg-dark-600'}`} />
+          <span className="text-xs text-zinc-500">
             {isListening ? 'Ouvindo' : 'Pausado'}
           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        {/* Frequency Display */}
-        <div className="bg-gray-900 rounded-lg p-4">
-          <p className="text-xs text-gray-500 mb-2">Frequência</p>
-          <p className="text-2xl font-bold text-white">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="bg-dark-900/80 rounded-xl p-3 sm:p-4 border border-dark-600/40">
+          <p className="text-xs text-zinc-500 mb-1">Frequência</p>
+          <p className="text-xl sm:text-2xl font-bold text-white tabular-nums">
             {displayFrequency ? `${Math.round(displayFrequency)} Hz` : '-- Hz'}
           </p>
         </div>
-
-        {/* Note Display */}
-        <div className="bg-gray-900 rounded-lg p-4">
-          <p className="text-xs text-gray-500 mb-2">Nota Detectada</p>
-          <p className="text-2xl font-bold text-white">
+        <div className="bg-dark-900/80 rounded-xl p-3 sm:p-4 border border-dark-600/40">
+          <p className="text-xs text-zinc-500 mb-1">Nota detectada</p>
+          <p className="text-xl sm:text-2xl font-bold text-brand-red tabular-nums">
             {displayNote}
           </p>
         </div>
       </div>
 
-      {/* Confidence Meter */}
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs text-gray-500">Confiança</p>
-          <p className="text-xs text-gray-400">{confidencePercentage}%</p>
+          <p className="text-xs text-zinc-500">Confiança</p>
+          <p className="text-xs text-zinc-400 tabular-nums">{confidencePercentage}%</p>
         </div>
-        <div className="w-full bg-gray-900 rounded-full h-2 overflow-hidden">
+        <div className="w-full bg-dark-900 rounded-full h-2 overflow-hidden">
           <div
-            className={`h-full ${confidenceColor} transition-all duration-300 ease-out`}
+            className={`h-full ${confidenceColor} transition-all duration-300 ease-out rounded-full`}
             style={{ width: `${confidencePercentage}%` }}
           />
         </div>
       </div>
 
-      {/* Audio Level Indicator */}
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs text-gray-500">Nível de Áudio (Volume)</p>
-          <p className="text-xs text-gray-400">{Math.round(audioLevel * 100)}%</p>
+          <p className="text-xs text-zinc-500">Nível de áudio</p>
+          <p className="text-xs text-zinc-400 tabular-nums">{Math.round(audioLevel * 100)}%</p>
         </div>
-        <div className="w-full bg-gray-900 rounded-full h-2 overflow-hidden">
+        <div className="w-full bg-dark-900 rounded-full h-2 overflow-hidden">
           <div
-            className={`h-full transition-all duration-100 ${
-              audioLevel > 0.5 ? 'bg-green-500' : audioLevel > 0.2 ? 'bg-yellow-500' : 'bg-red-500'
+            className={`h-full transition-all duration-100 rounded-full ${
+              audioLevel > 0.5 ? 'bg-success-500' : audioLevel > 0.2 ? 'bg-amber-500' : 'bg-brand-red/80'
             }`}
             style={{ width: `${audioLevel * 100}%` }}
           />
         </div>
         {audioLevel < 0.05 && isListening && (
-          <p className="text-xs text-red-400 mt-2 text-center">
-            ⚠️ Sinal muito fraco! Toque mais forte ou aproxime o microfone
+          <p className="text-xs text-brand-red/90 mt-2 text-center">
+            Sinal fraco — toque mais forte ou aproxime o microfone
           </p>
         )}
       </div>
 
-      {/* Instructions */}
       {isListening && !frequency && audioLevel < 0.02 && (
-        <p className="text-xs text-gray-500 mt-4 text-center">
+        <p className="text-xs text-zinc-500 mt-4 text-center">
           Aguardando sinal de áudio...
         </p>
       )}

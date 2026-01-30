@@ -230,7 +230,7 @@ const GuitarTrainer = () => {
         }, 1000);
       }
     }
-  }, [targetNote]);
+  }, []);
 
   /**
    * Handle correct note detection
@@ -277,44 +277,44 @@ const GuitarTrainer = () => {
   }, [handleStop]);
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto">
       {/* Error Message */}
       {error && (
-        <div className="bg-red-500 text-white rounded-lg p-4 mb-6 animate-fade-in">
+        <div className="bg-brand-red/90 text-white rounded-xl p-4 sm:p-5 mb-6 animate-fade-in shadow-brand border border-brand-red-dark/50">
           <p className="font-semibold">⚠️ Erro</p>
-          <p className="text-sm mt-1">{error}</p>
+          <p className="text-sm mt-1 opacity-95">{error}</p>
         </div>
       )}
 
       {/* Control Buttons */}
-      <div className="flex justify-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
         {trainingState === 'idle' ? (
           <button
             onClick={handleStart}
             onKeyDown={(e) => e.key === 'Enter' && handleStart()}
             aria-label="Iniciar treino de guitarra"
             tabIndex={0}
-            className="px-8 py-4 bg-green-500 hover:bg-green-600 text-white text-lg font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95"
+            className="w-full sm:w-auto px-6 sm:px-8 py-4 bg-brand-red hover:bg-brand-red-light text-white text-base sm:text-lg font-semibold rounded-xl shadow-brand hover:shadow-brand-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border border-brand-red-dark/50"
           >
             🎸 Iniciar Treino
           </button>
         ) : (
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch sm:items-center gap-3 w-full sm:w-auto">
             <button
               onClick={handleStop}
               onKeyDown={(e) => e.key === 'Enter' && handleStop()}
               aria-label="Parar treino de guitarra"
               tabIndex={0}
-              className="px-8 py-4 bg-red-500 hover:bg-red-600 text-white text-lg font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95"
+              className="px-6 sm:px-8 py-3.5 sm:py-4 bg-dark-800 hover:bg-dark-700 text-white text-base font-semibold rounded-xl border border-dark-600 transition-all duration-200 hover:border-brand-red/50"
             >
-              ⏹️ Parar Treino
+              ⏹ Parar Treino
             </button>
             <button
               onClick={handleSkipToNext}
               onKeyDown={(e) => e.key === 'Enter' && handleSkipToNext()}
               aria-label="Pular para próxima nota"
               tabIndex={0}
-              className="px-6 py-4 bg-gray-600 hover:bg-gray-500 text-white text-base font-medium rounded-xl border border-gray-500"
+              className="px-5 sm:px-6 py-3.5 sm:py-4 bg-dark-700 hover:bg-dark-600 text-zinc-300 text-base font-medium rounded-xl border border-dark-600 hover:border-brand-red/30 transition-all duration-200"
             >
               Próxima nota →
             </button>
@@ -324,14 +324,14 @@ const GuitarTrainer = () => {
 
       {/* Score Counter */}
       {trainingState !== 'idle' && (
-        <div className="text-center mb-6">
-          <p className="text-gray-400 text-sm mb-2">Notas corretas</p>
-          <p className="text-5xl font-bold text-white">{correctCount}</p>
+        <div className="text-center mb-5 sm:mb-6 py-3 px-4 rounded-xl bg-dark-800/80 border border-dark-600/50 inline-block mx-auto w-full sm:w-auto min-w-[120px]">
+          <p className="text-zinc-500 text-xs sm:text-sm uppercase tracking-wider mb-1">Notas corretas</p>
+          <p className="text-4xl sm:text-5xl font-bold text-brand-red tabular-nums">{correctCount}</p>
         </div>
       )}
 
       {/* Note Display */}
-      <div className="mb-6">
+      <div className="mb-5 sm:mb-6">
         <NoteDisplay
           targetNote={targetNote}
           isActive={trainingState === 'listening' || trainingState === 'correct' || trainingState === 'incorrect'}
@@ -340,7 +340,7 @@ const GuitarTrainer = () => {
 
       {/* Feedback Display */}
       {validationResult && (
-        <div className="mb-6">
+        <div className="mb-5 sm:mb-6">
           <FeedbackDisplay
             state={trainingState}
             centsDifference={validationResult.centsDifference}
@@ -350,7 +350,7 @@ const GuitarTrainer = () => {
 
       {/* Frequency Meter */}
       {trainingState !== 'idle' && (
-        <div className="mb-6">
+        <div className="mb-5 sm:mb-6">
           <FrequencyMeter
             frequency={currentPitch?.frequency || null}
             isListening={trainingState === 'listening' || trainingState === 'correct' || trainingState === 'incorrect'}
@@ -362,34 +362,34 @@ const GuitarTrainer = () => {
 
       {/* Instructions */}
       {trainingState === 'idle' && (
-        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 animate-fade-in">
-          <h3 className="text-xl font-semibold text-white mb-4">
-            📖 Como usar:
+        <div className="bg-dark-800/80 rounded-2xl p-5 sm:p-6 border border-dark-600/50 animate-fade-in">
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <span className="text-brand-red">📖</span> Como usar
           </h3>
-          <ol className="space-y-3 text-gray-300">
+          <ol className="space-y-3 text-zinc-400 text-sm sm:text-base">
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <span className="flex-shrink-0 w-7 h-7 bg-brand-red rounded-lg flex items-center justify-center text-white text-sm font-bold">
                 1
               </span>
-              <span>Clique em "Iniciar Treino" e permita acesso ao microfone</span>
+              <span>Clique em &quot;Iniciar Treino&quot; e permita o microfone</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <span className="flex-shrink-0 w-7 h-7 bg-brand-red rounded-lg flex items-center justify-center text-white text-sm font-bold">
                 2
               </span>
-              <span>O app sorteará uma nota e uma corda para você tocar</span>
+              <span>O app sorteia uma nota e corda para você tocar</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <span className="flex-shrink-0 w-7 h-7 bg-brand-red rounded-lg flex items-center justify-center text-white text-sm font-bold">
                 3
               </span>
-              <span>Toque a nota correspondente na guitarra de forma sustentada</span>
+              <span>Toque a nota de forma sustentada na guitarra</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <span className="flex-shrink-0 w-7 h-7 bg-brand-red rounded-lg flex items-center justify-center text-white text-sm font-bold">
                 4
               </span>
-              <span>Se acertar, avança automaticamente. Se errar, tente novamente!</span>
+              <span>Acertou? Avança sozinho. Errou? Tente de novo!</span>
             </li>
           </ol>
         </div>

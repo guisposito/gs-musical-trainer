@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-brand-red: #e11d48;
+    --color-dark-bg: #0a0a0a;
+    --color-dark-card: #141414;
+  }
   body {
-    @apply bg-gray-900 text-white antialiased;
+    @apply bg-[#0a0a0a] text-white antialiased;
   }
 }
 
@@ -12,7 +17,6 @@
   .animate-pulse-success {
     animation: pulse-success 0.5s ease-in-out;
   }
-  
   .animate-pulse-error {
     animation: pulse-error 0.5s ease-in-out;
   }
@@ -23,8 +27,8 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+    opacity: 0.9;
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
   }
 }
 
@@ -33,7 +37,7 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+    opacity: 0.9;
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
   }
 }

@@ -18,9 +18,9 @@ const NoteDisplay = ({ targetNote, isActive }: NoteDisplayProps) => {
 
   if (!targetNote) {
     return (
-      <div className="bg-gray-800 rounded-2xl p-8 md:p-12 shadow-2xl border border-gray-700">
+      <div className="bg-dark-800/90 rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl border border-dark-600/50">
         <div className="text-center">
-          <p className="text-gray-400 text-lg">
+          <p className="text-zinc-500 text-base sm:text-lg">
             Aguardando início...
           </p>
         </div>
@@ -33,32 +33,31 @@ const NoteDisplay = ({ targetNote, isActive }: NoteDisplayProps) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 md:p-12 shadow-2xl border border-gray-700 animate-slide-up">
+    <div className="bg-dark-800/90 rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-xl border border-dark-600/50 animate-slide-up ring-1 ring-white/5">
       <div className="text-center">
-        <p className="text-gray-400 text-sm md:text-base uppercase tracking-wider mb-4">
-          Toque a nota:
+        <p className="text-zinc-500 text-xs sm:text-sm uppercase tracking-widest mb-4">
+          Toque a nota
         </p>
-        
-        <div className="mb-6">
-          <div className={`text-7xl md:text-9xl font-bold mb-4 transition-all duration-300 ${
-            isActive ? 'text-white scale-100' : 'text-gray-600 scale-95'
+
+        <div className="mb-5 sm:mb-6">
+          <div className={`text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-3 sm:mb-4 transition-all duration-300 ${
+            isActive ? 'text-brand-red drop-shadow-[0_0_30px_rgba(225,29,72,0.4)]' : 'text-zinc-600 scale-95'
           }`}>
             {targetNote.name}
           </div>
-          
-          <div className="flex items-center justify-center gap-4">
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent flex-1" />
-            <p className="text-2xl md:text-3xl text-gray-300 font-semibold">
+
+          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+            <div className="h-px bg-gradient-to-r from-transparent via-brand-red/40 to-transparent flex-1 min-w-[2rem]" />
+            <p className="text-xl sm:text-2xl md:text-3xl text-zinc-300 font-semibold">
               Corda {targetNote.string}
-              <span className="text-gray-500 text-base font-normal ml-2">
+              <span className="text-zinc-500 text-sm sm:text-base font-normal ml-2">
                 {targetNote.string === 1 ? '(mais aguda)' : targetNote.string === 6 ? '(mais grave)' : ''}
               </span>
             </p>
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent flex-1" />
+            <div className="h-px bg-gradient-to-r from-transparent via-brand-red/40 to-transparent flex-1 min-w-[2rem]" />
           </div>
         </div>
-        
-        {/* Casa: oculta por padrão, botão discreto para mostrar */}
+
         <div className="mt-4">
           <button
             type="button"
@@ -66,20 +65,20 @@ const NoteDisplay = ({ targetNote, isActive }: NoteDisplayProps) => {
             onKeyDown={(e) => e.key === 'Enter' && handleToggleFret()}
             aria-label={showFret ? 'Ocultar número da casa' : 'Mostrar número da casa'}
             tabIndex={0}
-            className="text-gray-500 hover:text-gray-400 text-xs underline focus:outline-none focus:ring-1 focus:ring-gray-500 rounded px-1"
+            className="text-zinc-500 hover:text-brand-red/90 text-xs underline focus:outline-none focus:ring-1 focus:ring-brand-red/50 rounded px-1 transition-colors"
           >
             {showFret ? 'Ocultar casa' : 'Mostrar casa'}
           </button>
           {showFret && (
-            <div className="bg-gray-900 rounded-lg p-3 inline-block mt-2">
-              <p className="text-xs text-gray-400">Casa</p>
-              <p className="text-2xl font-bold text-white">{targetNote.fret}</p>
+            <div className="bg-dark-900 rounded-xl p-3 inline-block mt-2 border border-dark-600/50">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Casa</p>
+              <p className="text-2xl font-bold text-brand-red tabular-nums">{targetNote.fret}</p>
             </div>
           )}
         </div>
-        
-        <p className="text-gray-500 text-sm mt-6">
-          Frequência esperada: {Math.round(targetNote.frequency)} Hz
+
+        <p className="text-zinc-500 text-xs sm:text-sm mt-5 sm:mt-6">
+          Frequência esperada: <span className="text-zinc-400 font-medium tabular-nums">{Math.round(targetNote.frequency)} Hz</span>
         </p>
       </div>
     </div>

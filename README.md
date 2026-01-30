@@ -48,6 +48,21 @@ Toda a documentação está na pasta **[`docs/`](./docs/)**
 - **TailwindCSS** - Styling
 - **Web Audio API** - Pitch detection
 
+## 📦 Repositório (GitHub)
+
+O projeto já está versionado com Git. Para subir para o GitHub:
+
+1. **Crie um repositório novo no GitHub** (github.com → New repository). Ex.: `gs-musical-trainer`. Não marque "Initialize with README".
+2. **Conecte o remoto e envie o código:**
+
+```bash
+git remote add origin https://github.com/SEU_USUARIO/gs-musical-trainer.git
+git branch -M main
+git push -u origin main
+```
+
+(Substitua `SEU_USUARIO` e `gs-musical-trainer` pelo seu usuário e nome do repo.)
+
 ## 📄 Licença
 
 MIT License - Veja [LICENSE](./LICENSE)
