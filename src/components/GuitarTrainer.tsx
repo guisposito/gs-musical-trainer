@@ -178,9 +178,9 @@ const GuitarTrainer = () => {
         const result = detectPitch(buffer, sampleRate);
         setCurrentPitch(result);
 
-        // Só valida com som mais forte e detecção confiante (evita acerto/erro por ruído ambiente)
-        const minLevelToValidate = 0.18;
-        const minConfidenceToValidate = 0.55;
+        // Só valida com som mais forte e detecção confiante (evita ruído ambiente ser reconhecido como nota)
+        const minLevelToValidate = 0.22;
+        const minConfidenceToValidate = 0.65;
         const currentTarget = targetNoteRef.current;
         if (
           trainingStateRef.current === 'listening' &&
@@ -243,8 +243,8 @@ const GuitarTrainer = () => {
     if (isCorrect) {
       handleCorrectNote();
     } else {
-      // Mostra erro só com confiança alta (evita piscar por ruído)
-      if (detection.confidence >= 0.6 && trainingStateRef.current === 'listening') {
+      // Mostra "errou" só com confiança alta (evita piscar por ruído ambiente)
+      if (detection.confidence >= 0.7 && trainingStateRef.current === 'listening') {
         trainingStateRef.current = 'incorrect';
         setTrainingState('incorrect');
         setTimeout(() => {

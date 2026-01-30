@@ -5,12 +5,12 @@ import { frequencyToNoteName, isValidGuitarFrequency } from './frequencyConverte
  * Default audio configuration for pitch detection
  */
 export const DEFAULT_AUDIO_CONFIG: AudioConfig = {
-  fftSize: 4096,       // Increased for better low frequency detection
+  fftSize: 4096,
   sampleRate: 44100,
-  bufferSize: 4096,    // Increased buffer size
-  minFrequency: 80,    // E2 (6th string)
-  maxFrequency: 1400,  // ~E6 (1st string, 12th fret + harmonics)
-  threshold: 0.02,     // Menor sensibilidade a ruído (só detecta com sinal mais claro)
+  bufferSize: 4096,
+  minFrequency: 80,
+  maxFrequency: 1400,
+  threshold: 0.035,   // Sinal mínimo para detectar (evita ruído ambiente)
 };
 
 /**
@@ -74,8 +74,8 @@ export const detectPitchAutocorrelation = (
     }
   }
   
-  // Tolerância menor para a nota aparecer mais na UI (0.15 = aceita mais detecções)
-  if (bestCorrelation < 0.15 || bestOffset === -1) {
+  // Exige correlação maior para reduzir falsos positivos (ruído ambiente)
+  if (bestCorrelation < 0.5 || bestOffset === -1) {
     return null;
   }
   
@@ -218,8 +218,8 @@ export const detectPitch = (
     sumSquares += buffer[i] * buffer[i];
   }
   const rms = Math.sqrt(sumSquares / buffer.length);
-  // Adjust confidence calculation for lower threshold
-  const confidence = Math.min(rms / 0.05, 1);
+  // Confiança: exige sinal mais forte para contar como nota clara (reduz ruído ambiente)
+  const confidence = Math.min(rms / 0.06, 1);
   
   return {
     frequency,
